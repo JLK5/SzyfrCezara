@@ -1,4 +1,6 @@
-﻿string ToAsciicaesar(string clearText, int key)
+﻿
+const string chars = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTIVWYZŹŻ";
+string ToAsciicaesar(string clearText, int key)
 {
     clearText = clearText.ToUpper();
     string encryptedText = "";
@@ -34,7 +36,6 @@ string FromAsciicaesar(string encryptedText, int key)
 }
 string ToArrayCaesar(string clearText, int key)
 {
-    string chars = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTIVWYZŹŻ";
     char[] charArray = chars.ToCharArray();
         clearText = clearText.ToUpper();
     string encryptedText = "";
@@ -50,6 +51,22 @@ string ToArrayCaesar(string clearText, int key)
     }
     return encryptedText;
 }
+string FromArrayCaesar(string encryptedText, int key)
+{
+    char[] charArray = chars.ToCharArray();
+    string clearText = "";
+    foreach (char c in encryptedText)
+    {
+        int charIndex = Array.IndexOf(charArray, c);
+        charIndex -= key;
+        if(charIndex < 0)
+        {
+            charIndex += charArray.Length;
+        }
+        clearText += charArray[charIndex]; 
+    }
+    return clearText;
+}
 string text = "TEKST DO ZASZYFROWANIA";
 string cypher = ToAsciicaesar(text, 3);
 Console.WriteLine("Zaszyfrowany tekst (ascii): " + cypher);
@@ -58,3 +75,4 @@ text = FromAsciicaesar(cypher, 3);
 Console.WriteLine("Odszywfrowany tekst (ascii): " + text);
 
 Console.WriteLine("Zaszyfrowany Tekst (ascii): " + ToArrayCaesar("Zażółć gęślą jaźń", 3));
+Console.WriteLine("Odszyfrowany Tekst (ascii): " + FromArrayCaesar("Zażółć gęślą jaźń", 3));
